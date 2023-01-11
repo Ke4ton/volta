@@ -8,7 +8,11 @@ import (
 type Ctx struct {
 	Response http.ResponseWriter
 	Request  *http.Request
-	ps       httprouter.Params
+
+	ps httprouter.Params
+
+	jsonMarshaler   JSONMarshal
+	jsonUnmarshaler JSONUnmarshal
 }
 
 type Handler func(*Ctx) error
@@ -40,14 +44,18 @@ func (a *App) Options(path string, handler ...Handler) {
 func (a *App) wrap(handlers []Handler) httprouter.Handle {
 	return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 		ctx := &Ctx{
-			Response: w,
-			Request:  r,
-			ps:       ps,
+			Response:        w,
+			Request:         r,
+			ps:              ps,
+			jsonUnmarshaler: a.Conf.JsonUnmarshaler,
+			jsonMarshaler:   a.Conf.JsonMarshaler,
 		}
 
 		for _, handler := range handlers {
 			if err := handler(ctx); err == nil {
 				return
+			} else {
+				ctx.Response.Write([]byte(err.Error()))
 			}
 		}
 	}
