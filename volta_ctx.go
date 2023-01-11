@@ -131,3 +131,57 @@ func (c *Ctx) Param(key, def string) string {
 
 	return def
 }
+
+// IsGet returns true if the request method is GET.
+func (c *Ctx) IsGet() bool {
+	if c.Request.Method == "GET" {
+		return true
+	}
+
+	return false
+}
+
+// IsPost returns true if the request method is POST.
+func (c *Ctx) IsPost() bool {
+	if c.Request.Method == "POST" {
+		return true
+	}
+
+	return false
+}
+
+// IsPut returns true if the request method is PUT.
+func (c *Ctx) IsPut() bool {
+	if c.Request.Method == "PUT" {
+		return true
+	}
+
+	return false
+}
+
+// IsDelete returns true if the request method is DELETE.
+func (c *Ctx) IsDelete() bool {
+	if c.Request.Method == "DELETE" {
+		return true
+	}
+
+	return false
+}
+
+// IsPatch returns true if the request method is PATCH.
+func (c *Ctx) IsPatch() bool {
+	if c.Request.Method == "PATCH" {
+		return true
+	}
+
+	return false
+}
+
+// IsOptions returns true if the request method is OPTIONS.
+func (c *Ctx) IsOptions() bool {
+	if c.Request.Method == "OPTIONS" {
+		return true
+	}
+
+	return false
+}
