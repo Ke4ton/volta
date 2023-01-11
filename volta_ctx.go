@@ -1,5 +1,7 @@
 package volta
 
+import "mime/multipart"
+
 func (c *Ctx) Status(status Status) *Ctx {
 	c.Response.WriteHeader(int(status))
 	return c
@@ -55,8 +57,25 @@ func (c *Ctx) Form(key, def string) string {
 	return def
 }
 
+func (c *Ctx) FormFile(key string) (multipart.File, error) {
+	file, _, err := c.Request.FormFile(key)
+	if err != nil {
+		return nil, err
+	}
+
+	return file, nil
+}
+
 func (c *Ctx) Query(key, def string) string {
 	if val := c.Request.URL.Query().Get(key); val != "" {
+		return val
+	}
+
+	return def
+}
+
+func (c *Ctx) Param(key, def string) string {
+	if val := c.ps.ByName(key); val != "" {
 		return val
 	}
 
