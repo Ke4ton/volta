@@ -5,7 +5,7 @@ import (
 )
 
 func HelloWorld(ctx *volta.Ctx) error {
-	return ctx.SendString("Hello World!")
+	return ctx.Status(volta.StatusOK).SendString("Hello World!")
 }
 
 func HelloWorldJson(ctx *volta.Ctx) error {

@@ -7,7 +7,7 @@ func (c *Ctx) Status(status Status) *Ctx {
 
 func (c *Ctx) Redirect(url string) error {
 	c.Response.Header().Set("Location", url)
-	c.Response.WriteHeader(int(SeeOther))
+	c.Response.WriteHeader(int(StatusSeeOther))
 
 	return nil
 }
