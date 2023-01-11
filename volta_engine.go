@@ -15,7 +15,13 @@ type App struct {
 
 func New(conf Config) *App {
 	if conf.Port == "" {
-		conf = DefaultConfig
+		conf.Port = DefaultConfig.Port
+	}
+	if conf.JsonUnmarshaler == nil {
+		conf.JsonUnmarshaler = DefaultConfig.JsonUnmarshaler
+	}
+	if conf.JsonMarshaler == nil {
+		conf.JsonMarshaler = DefaultConfig.JsonMarshaler
 	}
 
 	return &App{

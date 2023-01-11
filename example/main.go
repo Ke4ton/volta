@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"github.com/pearleascent/volta"
 )
 
@@ -10,18 +9,21 @@ func HelloWorld(ctx *volta.Ctx) error {
 }
 
 func HelloWorldJson(ctx *volta.Ctx) error {
-	return ctx.Redirect("/")
+	return ctx.SendJSON(volta.Map{
+		"message": "Hello World!",
+	})
 }
 
 func main() {
 	app := volta.New(volta.Config{
-		Port:            "1337",
-		JsonUnmarshaler: json.Unmarshal,
-		JsonMarshaler:   json.Marshal,
+		Port: "1337",
+		// You have ability to select custom JSON marshaller and unmarshaler
+		//JsonUnmarshaler: json.Unmarshal,
+		//JsonMarshaler:   json.Marshal,
 	})
 
 	app.Get("/", HelloWorld)
-	app.Get("/json", HelloWorldJson)
+	app.Get("/json_test", HelloWorldJson)
 
 	app.Run()
 }
