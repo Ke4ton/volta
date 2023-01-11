@@ -52,15 +52,19 @@ func (a *App) wrap(handlers []Handler) httprouter.Handle {
 		}
 
 		for _, middlewares := range a.using {
-			if err := middlewares(ctx); err != nil {
+			if err := middlewares(ctx); err == nil {
 				return
+			} else if err == ErrorNext {
+
+			} else {
+				ctx.Response.Write([]byte(err.Error()))
 			}
 		}
 
 		for _, handler := range handlers {
 			if err := handler(ctx); err == nil {
 				return
-			} else if err != ErrorNext {
+			} else if err == ErrorNext {
 
 			} else {
 				ctx.Response.Write([]byte(err.Error()))

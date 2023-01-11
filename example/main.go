@@ -24,7 +24,9 @@ func main() {
 	})
 
 	app.Use(func(ctx *volta.Ctx) error {
-		return ctx.SendString("Hello, World!")
+		ctx.SendString("Hello, World!")
+
+		return ctx.Next()
 	})
 
 	app.Get("/hi/:name", HelloWorld)
