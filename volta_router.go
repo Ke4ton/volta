@@ -51,9 +51,17 @@ func (a *App) wrap(handlers []Handler) httprouter.Handle {
 			jsonMarshaler:   a.Conf.JsonMarshaler,
 		}
 
+		for _, middlewares := range a.using {
+			if err := middlewares(ctx); err != nil {
+				return
+			}
+		}
+
 		for _, handler := range handlers {
 			if err := handler(ctx); err == nil {
 				return
+			} else if err != ErrorNext {
+
 			} else {
 				ctx.Response.Write([]byte(err.Error()))
 			}

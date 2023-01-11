@@ -6,6 +6,10 @@ import (
 	"os"
 )
 
+func (c *Ctx) Next() error {
+	return ErrorNext
+}
+
 func (c *Ctx) Status(status Status) *Ctx {
 	c.Response.WriteHeader(int(status))
 	return c

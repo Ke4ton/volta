@@ -6,7 +6,7 @@ import (
 )
 
 func HelloWorld(ctx *volta.Ctx) error {
-	return ctx.Status(volta.StatusOK).SendString("Hello World!")
+	return ctx.SendString("Hello, " + ctx.Param("name", "") + "!")
 }
 
 func HelloWorldJson(ctx *volta.Ctx) error {
@@ -23,7 +23,11 @@ func main() {
 		JsonMarshaler:   json.Marshal,
 	})
 
-	app.Get("/", HelloWorld)
+	app.Use(func(ctx *volta.Ctx) error {
+		return ctx.SendString("Hello, World!")
+	})
+
+	app.Get("/hi/:name", HelloWorld)
 	app.Get("/json_test", HelloWorldJson)
 
 	app.Run()

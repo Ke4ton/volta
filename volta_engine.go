@@ -11,6 +11,8 @@ type App struct {
 
 	http   *http.Server
 	router *httprouter.Router
+
+	using []Handler
 }
 
 func New(conf Config) *App {
@@ -44,6 +46,10 @@ func (a *App) Run() {
 	fmt.Println("[Volta] Server started on port :" + a.Conf.Port)
 
 	select {}
+}
+
+func (a *App) Use(handlers ...Handler) {
+	a.using = append(a.using, handlers...)
 }
 
 func (a *App) Stop() {
