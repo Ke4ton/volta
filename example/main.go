@@ -27,7 +27,9 @@ func main() {
 	})
 
 	app.Use(func(ctx *volta.Ctx) error {
-		ctx.SendString("Hello, World!")
+		if ctx.CurrentRoute() != "/json_test" {
+			ctx.SendString("Hello, World!")
+		}
 
 		return ctx.Next()
 	})
