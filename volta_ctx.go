@@ -182,6 +182,11 @@ func (c *Ctx) IsOptions() bool {
 	return false
 }
 
+// Method returns the request method.
+func (c *Ctx) Method() string {
+	return c.Request.Method
+}
+
 // UserAgent returns the user agent.
 func (c *Ctx) UserAgent() string {
 	return c.Request.UserAgent()
@@ -195,6 +200,11 @@ func (c *Ctx) Host() string {
 // RemoteAddr return client IP address.
 func (c *Ctx) RemoteAddr() string {
 	return c.Request.RemoteAddr
+}
+
+// IsFromLocal returns true if request is from localhost.
+func (c *Ctx) IsFromLocal() bool {
+	return c.Request.RemoteAddr == ""
 }
 
 // Header returns the value of the header field with the given name.
