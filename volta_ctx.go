@@ -11,21 +11,6 @@ func (c *Ctx) Next() error {
 	return ErrorNext
 }
 
-// Header returns the value of the header field with the given name.
-func (c *Ctx) Header(key, def string) string {
-	if val := c.Request.Header.Get(key); val != "" {
-		return val
-	}
-
-	return def
-}
-
-// SetHeader sets the header with the given key and value.
-func (c *Ctx) SetHeader(key, val string) *Ctx {
-	c.Response.Header().Set(key, val)
-	return c
-}
-
 // Status sets the status code.
 func (c *Ctx) Status(status Status) *Ctx {
 	c.Response.WriteHeader(int(status))
@@ -210,4 +195,23 @@ func (c *Ctx) Host() string {
 // RemoteAddr return client IP address.
 func (c *Ctx) RemoteAddr() string {
 	return c.Request.RemoteAddr
+}
+
+// Header returns the value of the header field with the given name.
+func (c *Ctx) Header(key, def string) string {
+	if val := c.Request.Header.Get(key); val != "" {
+		return val
+	}
+
+	return def
+}
+
+// SetHeader sets the header with the given key and value.
+func (c *Ctx) SetHeader(key, val string) *Ctx {
+	c.Response.Header().Set(key, val)
+	return c
+}
+
+func (c *Ctx) GetReqHeaders() map[string][]string {
+	return c.Request.Header
 }
