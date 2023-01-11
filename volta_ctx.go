@@ -2,6 +2,7 @@ package volta
 
 import (
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 	"os"
 )
@@ -130,6 +131,16 @@ func (c *Ctx) Param(key, def string) string {
 	}
 
 	return def
+}
+
+// Body returns the request body bytes.
+func (c *Ctx) Body() ([]byte, error) {
+	body, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	return body, nil
 }
 
 // IsGet returns true if the request method is GET.
