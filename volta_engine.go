@@ -2,50 +2,46 @@ package volta
 
 import (
 	"fmt"
+	"github.com/pearleascent/volta/dependencies/httprouter"
 	"net/http"
 )
 
-// Config Volta Wrapper configuration struct
-type Config struct {
-	Port string
-}
-
-var DefaultConfig = Config{
-	Port: "8080",
-}
-
-type Engine struct {
+type App struct {
 	Conf Config
 
-	http *http.Server
+	http   *http.Server
+	router *httprouter.Router
 }
 
-func New(conf Config) *Engine {
+func New(conf Config) *App {
 	if conf.Port == "" {
 		conf = DefaultConfig
 	}
 
-	return &Engine{
-		Conf: conf,
+	return &App{
+		Conf:   conf,
+		router: httprouter.New(),
 	}
 }
 
-func (e *Engine) SetConfig(conf Config) {
-	e.Conf = conf
-}
-
-func (e *Engine) Run() {
-	e.http = &http.Server{
-		Addr: ":" + e.Conf.Port,
+func (a *App) Run() {
+	a.http = &http.Server{
+		Addr: ":" + a.Conf.Port,
 	}
 
 	go func() {
-		if err := http.ListenAndServe(e.http.Addr, nil); err != nil {
+		if err := http.ListenAndServe(a.http.Addr, a.router); err != nil {
 			panic(err)
 		}
 	}()
 
-	fmt.Println("[Volta] Server started on port :" + e.Conf.Port)
+	fmt.Println("[Volta] Server started on port :" + a.Conf.Port)
 
 	select {}
+}
+
+func (a *App) Stop() {
+	if err := a.http.Close(); err != nil {
+		panic(err)
+	}
 }
