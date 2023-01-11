@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/pearleascent/volta"
 )
 
@@ -10,6 +11,8 @@ func HelloWorld(ctx *volta.Ctx) error {
 }
 
 func HelloWorldJson(ctx *volta.Ctx) error {
+	fmt.Println(ctx.CurrentRoute())
+
 	return ctx.SendJSON(volta.Map{
 		"message": "Hello World!",
 	})

@@ -222,6 +222,11 @@ func (c *Ctx) SetHeader(key, val string) *Ctx {
 	return c
 }
 
+// GetReqHeaders returns all request headers.
 func (c *Ctx) GetReqHeaders() map[string][]string {
 	return c.Request.Header
+}
+
+func (c *Ctx) CurrentRoute() string {
+	return c.Request.URL.Path
 }
