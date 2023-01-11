@@ -1,5 +1,24 @@
 package volta
 
+func (c *Ctx) Status(status int) *Ctx {
+	c.Response.WriteHeader(status)
+	return c
+}
+
+func (c *Ctx) Redirect(url string) error {
+	c.Response.Header().Set("Location", url)
+	c.Response.WriteHeader(301)
+
+	return nil
+}
+
+func (c *Ctx) RedirectStatus(url string, status int) error {
+	c.Response.Header().Set("Location", url)
+	c.Response.WriteHeader(status)
+
+	return nil
+}
+
 func (c *Ctx) SendString(msg string) error {
 	c.Response.Write([]byte(msg))
 

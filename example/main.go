@@ -10,9 +10,7 @@ func HelloWorld(ctx *volta.Ctx) error {
 }
 
 func HelloWorldJson(ctx *volta.Ctx) error {
-	return ctx.SendJSON(volta.Map{
-		"message": "Hello World!",
-	})
+	return ctx.Redirect("/")
 }
 
 func main() {
