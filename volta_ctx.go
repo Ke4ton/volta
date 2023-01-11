@@ -1,6 +1,10 @@
 package volta
 
-import "mime/multipart"
+import (
+	"io"
+	"mime/multipart"
+	"os"
+)
 
 func (c *Ctx) Status(status Status) *Ctx {
 	c.Response.WriteHeader(int(status))
@@ -64,6 +68,22 @@ func (c *Ctx) FormFile(key string) (multipart.File, error) {
 	}
 
 	return file, nil
+}
+
+func (c *Ctx) SaveFile(file multipart.File, path string) error {
+	out, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+
+	defer out.Close()
+
+	_, err = io.Copy(out, file)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (c *Ctx) Query(key, def string) string {
