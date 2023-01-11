@@ -10,6 +10,19 @@ func (c *Ctx) Next() error {
 	return ErrorNext
 }
 
+func (c *Ctx) Header(key, def string) string {
+	if val := c.Request.Header.Get(key); val != "" {
+		return val
+	}
+
+	return def
+}
+
+func (c *Ctx) SetHeader(key, val string) *Ctx {
+	c.Response.Header().Set(key, val)
+	return c
+}
+
 func (c *Ctx) Status(status Status) *Ctx {
 	c.Response.WriteHeader(int(status))
 	return c
