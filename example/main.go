@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"github.com/pearleascent/volta"
 )
 
@@ -18,8 +19,8 @@ func main() {
 	app := volta.New(volta.Config{
 		Port: "1337",
 		// You have ability to select custom JSON marshaller and unmarshaler
-		//JsonUnmarshaler: json.Unmarshal,
-		//JsonMarshaler:   json.Marshal,
+		JsonUnmarshaler: json.Unmarshal,
+		JsonMarshaler:   json.Marshal,
 	})
 
 	app.Get("/", HelloWorld)

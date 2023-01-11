@@ -46,3 +46,19 @@ func (c *Ctx) SendJSON(msg Map) error {
 
 	return nil
 }
+
+func (c *Ctx) Form(key, def string) string {
+	if val := c.Request.FormValue(key); val != "" {
+		return val
+	}
+
+	return def
+}
+
+func (c *Ctx) Query(key, def string) string {
+	if val := c.Request.URL.Query().Get(key); val != "" {
+		return val
+	}
+
+	return def
+}
