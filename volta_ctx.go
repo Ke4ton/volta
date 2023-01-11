@@ -196,3 +196,18 @@ func (c *Ctx) IsOptions() bool {
 
 	return false
 }
+
+// UserAgent returns the user agent.
+func (c *Ctx) UserAgent() string {
+	return c.Request.UserAgent()
+}
+
+// Host returns the host.
+func (c *Ctx) Host() string {
+	return c.Request.Host
+}
+
+// RemoteAddr return client IP address.
+func (c *Ctx) RemoteAddr() string {
+	return c.Request.RemoteAddr
+}
